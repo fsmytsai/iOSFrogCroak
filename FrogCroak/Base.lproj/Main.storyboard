@@ -61,6 +61,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7BX-Cw-Uir">
+                                <rect key="frame" x="55" y="686" width="265" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="cSL-wc-WyX"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="M6I-tb-cCT" id="mlt-Mu-YcQ"/>
+                                </connections>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7S1-8A-DLr">
                                 <rect key="frame" x="0.0" y="679" width="50" height="50"/>
                                 <constraints>
@@ -69,15 +81,6 @@
                                 </constraints>
                                 <state key="normal" image="sendi"/>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4eY-Kw-Vmi">
-                                <rect key="frame" x="50" y="679" width="275" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="GLz-1Y-KSA"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS7-aD-XkD">
                                 <rect key="frame" x="325" y="679" width="50" height="50"/>
                                 <constraints>
@@ -85,16 +88,19 @@
                                     <constraint firstAttribute="width" constant="50" id="jh4-A1-mWj"/>
                                 </constraints>
                                 <state key="normal" image="sendm"/>
+                                <connections>
+                                    <action selector="bt_SendMessage:" destination="M6I-tb-cCT" eventType="touchUpInside" id="odV-yX-KzM"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A57-AZ-Gvy">
-                                <rect key="frame" x="0.0" y="673" width="375" height="1"/>
+                                <rect key="frame" x="0.0" y="678" width="375" height="1"/>
                                 <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="y2I-tE-fMo"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CyD-OC-xIU">
-                                <rect key="frame" x="0.0" y="44" width="375" height="629"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="634"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Left" id="rKz-xl-FDx">
@@ -170,15 +176,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dS7-aD-XkD" firstAttribute="trailing" secondItem="250-Dy-DV0" secondAttribute="trailing" id="4Ly-TC-8by"/>
-                            <constraint firstItem="250-Dy-DV0" firstAttribute="bottom" secondItem="4eY-Kw-Vmi" secondAttribute="bottom" constant="5" id="DKe-fH-Hgk"/>
-                            <constraint firstItem="dS7-aD-XkD" firstAttribute="leading" secondItem="4eY-Kw-Vmi" secondAttribute="trailing" id="Elz-yc-oLl"/>
                             <constraint firstItem="CyD-OC-xIU" firstAttribute="top" secondItem="250-Dy-DV0" secondAttribute="top" id="IQe-q6-B81"/>
-                            <constraint firstItem="4eY-Kw-Vmi" firstAttribute="leading" secondItem="7S1-8A-DLr" secondAttribute="trailing" id="KAr-5N-Tjy"/>
                             <constraint firstItem="250-Dy-DV0" firstAttribute="bottom" secondItem="7S1-8A-DLr" secondAttribute="bottom" id="Lxm-1y-WHS"/>
+                            <constraint firstItem="250-Dy-DV0" firstAttribute="bottom" secondItem="7BX-Cw-Uir" secondAttribute="bottom" constant="5" id="NGZ-L4-yk8"/>
                             <constraint firstItem="7S1-8A-DLr" firstAttribute="leading" secondItem="250-Dy-DV0" secondAttribute="leading" id="O7g-P5-cGh"/>
+                            <constraint firstItem="dS7-aD-XkD" firstAttribute="leading" secondItem="7BX-Cw-Uir" secondAttribute="trailing" constant="5" id="Oaj-GY-R1e"/>
                             <constraint firstItem="250-Dy-DV0" firstAttribute="trailing" secondItem="CyD-OC-xIU" secondAttribute="trailing" id="ZL3-7x-6gG"/>
+                            <constraint firstItem="7S1-8A-DLr" firstAttribute="top" secondItem="A57-AZ-Gvy" secondAttribute="bottom" id="aRT-eY-W4N"/>
                             <constraint firstItem="A57-AZ-Gvy" firstAttribute="leading" secondItem="250-Dy-DV0" secondAttribute="leading" id="cm5-cx-dxh"/>
-                            <constraint firstItem="4eY-Kw-Vmi" firstAttribute="top" secondItem="A57-AZ-Gvy" secondAttribute="bottom" constant="5" id="n04-FI-Kgc"/>
+                            <constraint firstItem="7BX-Cw-Uir" firstAttribute="leading" secondItem="7S1-8A-DLr" secondAttribute="trailing" constant="5" id="kPN-qU-Laj"/>
                             <constraint firstItem="CyD-OC-xIU" firstAttribute="leading" secondItem="250-Dy-DV0" secondAttribute="leading" id="nRv-YR-Miu"/>
                             <constraint firstItem="A57-AZ-Gvy" firstAttribute="top" secondItem="CyD-OC-xIU" secondAttribute="bottom" id="nbT-Iv-lpL"/>
                             <constraint firstItem="250-Dy-DV0" firstAttribute="trailing" secondItem="A57-AZ-Gvy" secondAttribute="trailing" id="tO6-N1-4Wr"/>
@@ -189,6 +195,10 @@
                     <tabBarItem key="tabBarItem" title="" image="message" id="IGG-HN-7yc">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="table_Message" destination="CyD-OC-xIU" id="lPr-NU-2pN"/>
+                        <outlet property="tf_Message" destination="7BX-Cw-Uir" id="D1f-wM-aJv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rYo-FF-W9e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

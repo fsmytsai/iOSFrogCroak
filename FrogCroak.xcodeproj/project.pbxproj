@@ -16,6 +16,8 @@
 		26785EE61F8A6E84001589A4 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26785EE51F8A6E84001589A4 /* MessageViewController.swift */; };
 		26951FCF1F81C3C7000396F4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26951FCE1F81C3C7000396F4 /* MapViewController.swift */; };
 		26951FD21F81D92F000396F4 /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26951FD11F81D92F000396F4 /* MarkerView.swift */; };
+		26B89C281F8CC0030043DC55 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 26B89C271F8CC0030043DC55 /* libsqlite3.tbd */; };
+		26B89C2B1F8D2E0D0043DC55 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */; };
 		26BEFCAC1F7FD2BE00207B7E /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,9 @@
 		26785EE51F8A6E84001589A4 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		26951FCE1F81C3C7000396F4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		26951FD11F81D92F000396F4 /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
+		26B89C271F8CC0030043DC55 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		26B89C291F8CC0290043DC55 /* BridgeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeHeader.h; sourceTree = "<group>"; };
+		26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B89C281F8CC0030043DC55 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +56,7 @@
 			children = (
 				2662CA871F7E981D0002FCB0 /* FrogCroak */,
 				2662CA861F7E981D0002FCB0 /* Products */,
+				26B89C261F8CC0030043DC55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,7 @@
 		2662CA871F7E981D0002FCB0 /* FrogCroak */ = {
 			isa = PBXGroup;
 			children = (
+				26B89C241F8CBF0D0043DC55 /* SQLite */,
 				26951FD01F81D906000396F4 /* ViewModels */,
 				2662CA881F7E981D0002FCB0 /* AppDelegate.swift */,
 				2662CA8A1F7E981D0002FCB0 /* ViewController.swift */,
@@ -83,8 +91,25 @@
 			isa = PBXGroup;
 			children = (
 				26951FD11F81D92F000396F4 /* MarkerView.swift */,
+				26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		26B89C241F8CBF0D0043DC55 /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				26B89C291F8CC0290043DC55 /* BridgeHeader.h */,
+			);
+			path = SQLite;
+			sourceTree = "<group>";
+		};
+		26B89C261F8CC0030043DC55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				26B89C271F8CC0030043DC55 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +188,7 @@
 				26BEFCAC1F7FD2BE00207B7E /* IntroViewController.swift in Sources */,
 				2662CA8B1F7E981D0002FCB0 /* ViewController.swift in Sources */,
 				2662CA891F7E981D0002FCB0 /* AppDelegate.swift in Sources */,
+				26B89C2B1F8D2E0D0043DC55 /* MessageView.swift in Sources */,
 				26951FD21F81D92F000396F4 /* MarkerView.swift in Sources */,
 				26951FCF1F81C3C7000396F4 /* MapViewController.swift in Sources */,
 				26785EE61F8A6E84001589A4 /* MessageViewController.swift in Sources */,
@@ -307,6 +333,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mytsai.FrogCroak;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = FrogCroak/SQLite/BridgeHeader.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -321,6 +348,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mytsai.FrogCroak;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = FrogCroak/SQLite/BridgeHeader.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

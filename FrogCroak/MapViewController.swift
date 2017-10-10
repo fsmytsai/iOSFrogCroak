@@ -53,8 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     func addMarkers(){
         let Url = URL(string: "https://frogcroak.azurewebsites.net/api/MarkerApi/GetMarkerList")
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: Url!, completionHandler: {
+        URLSession.shared.dataTask(with: Url!, completionHandler: {
             (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil{ //如果有錯誤的話，印出錯誤，
                 print("發生錯誤：\(error!.localizedDescription)")
