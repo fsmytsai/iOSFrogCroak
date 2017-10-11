@@ -17,16 +17,29 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     private var keyboardHeight: CGFloat = 0
     private var messageView = MessageView(MessageList: [MessageView.Message]())
     
-    private var l_MessageWidth: CGFloat = 0
+    private var l_MessageMaxWidth: CGFloat = 0
     
     var db: OpaquePointer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        db = openDatabase()
-        createTable()
-
+        setPushFrameAndTapCloseKB()
+        
+        openDatabase()
+        
+        //讀取訊息
+        readMessages()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if (self.table_Message.contentSize.height > self.table_Message.frame.height)
+        {
+            table_Message.scrollToRow(at: IndexPath(row: messageView.MessageList.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+        }
+    }
+    
+    func setPushFrameAndTapCloseKB(){
         //監控開啟關閉鍵盤
         NotificationCenter.default.addObserver(
             self,
@@ -54,13 +67,9 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // 為視圖加入監聽手勢
         self.view.addGestureRecognizer(singleFinger)
-        
-        //讀取訊息
-        readMessages()
     }
     
-    func openDatabase() -> OpaquePointer? {
-        var db: OpaquePointer? = nil
+    func openDatabase() {
         // 資料庫檔案的路徑
         let urls = FileManager.default.urls(
             for: .documentDirectory,
@@ -69,12 +78,12 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         let sqlitePath = urls[urls.count-1].absoluteString + "sqlite3.db"
         if sqlite3_open(sqlitePath, &db) == SQLITE_OK {
             print("Successfully opened connection to database at \(sqlitePath)")
-            return db
+            //資料庫開啟成功則新建資料表
+            createTable()
         } else {
             print("Unable to open database. Verify that you created the directory described " +
                 "in the Getting Started section.")
         }
-        return nil
     }
     
     func createTable() {
@@ -212,39 +221,31 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         l_Message.text = messageView.MessageList[indexPath.row].message
+        print(l_Message.text!)
         
-        if l_MessageWidth == 0 {
-            l_MessageWidth = l_Message.frame.width - 40
+        if l_MessageMaxWidth == 0 {
+            l_MessageMaxWidth = tableView.frame.size.width * 0.7 - 40
         }
         
-        print("test \(l_Message.text!)")
+        l_Message.translatesAutoresizingMaskIntoConstraints = true
         
-        let rect = l_Message.text!.boundingRect(with: CGSize(width: l_MessageWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
+        let rect = l_Message.text!.boundingRect(with: CGSize(width: l_MessageMaxWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
         
-        if let constraint = (l_Message.constraints.filter{$0.firstAttribute == .height}.first) {
-            constraint.constant = rect.height + 40
-            print("test old height cons \(rect.height + 40)")
-        } else {
-            l_Message.addConstraint(NSLayoutConstraint(item: l_Message, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: rect.height + 40))
-            print("test add height cons \(rect.height + 40)")
-        }
+        l_Message.frame.size.height = rect.height + 40
         
-        if rect.width < l_MessageWidth - 50 {
-            if let constraint = (l_Message.constraints.filter{$0.firstAttribute == .width}.first) {
-                constraint.constant = rect.width + 42
-                print("test old width cons \(rect.width + 42)")
+        if rect.width < l_MessageMaxWidth - 50 {
+            l_Message.frame.size.width = rect.width + 42
+            if messageView.MessageList[indexPath.row].isme {
+                l_Message.frame.origin.x = tableView.frame.width - rect.width - 52
             } else {
-                let con = NSLayoutConstraint(item: l_Message, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: rect.width + 42)
-                con.priority = UILayoutPriority(rawValue: 1000)
-                l_Message.addConstraint(con)
-                print("test add width cons \(rect.width + 42)")
+                l_Message.frame.origin.x = cell.contentView.subviews[0].frame.width + 20
             }
         }
         
         l_Message.layer.cornerRadius = 20
         l_Message.layer.masksToBounds = true
         
-        cell.layoutIfNeeded()
+
         return cell
     }
     

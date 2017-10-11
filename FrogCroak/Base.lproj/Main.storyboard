@@ -138,7 +138,7 @@
                                                 <constraint firstItem="zV0-xA-WJE" firstAttribute="leading" secondItem="nQq-rb-LnS" secondAttribute="leading" constant="10" id="ZoO-ik-1d9"/>
                                                 <constraint firstItem="GAv-hI-d9n" firstAttribute="top" secondItem="wwb-0u-GKK" secondAttribute="bottom" constant="5" id="cZp-Tm-aWF"/>
                                                 <constraint firstItem="GAv-hI-d9n" firstAttribute="leading" secondItem="zV0-xA-WJE" secondAttribute="trailing" priority="900" constant="10" id="kvm-cz-xf7"/>
-                                                <constraint firstAttribute="bottom" secondItem="GAv-hI-d9n" secondAttribute="bottom" id="vVG-mz-ayX"/>
+                                                <constraint firstAttribute="bottom" secondItem="GAv-hI-d9n" secondAttribute="bottom" constant="5" id="vVG-mz-ayX"/>
                                                 <constraint firstItem="wwb-0u-GKK" firstAttribute="leading" secondItem="zV0-xA-WJE" secondAttribute="trailing" constant="10" id="yya-U5-CYO"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -151,7 +151,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCY-px-7HH" customClass="PaddingLabel" customModule="FrogCroak" customModuleProvider="target">
-                                                    <rect key="frame" x="90" y="10" width="275" height="34"/>
+                                                    <rect key="frame" x="90" y="5" width="275" height="34"/>
                                                     <color key="backgroundColor" red="0.77647058823529413" green="0.89411764705882346" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
@@ -159,8 +159,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="FCY-px-7HH" firstAttribute="top" secondItem="LBW-Fp-ZWI" secondAttribute="top" constant="10" id="A0C-CB-wXK"/>
-                                                <constraint firstAttribute="bottom" secondItem="FCY-px-7HH" secondAttribute="bottom" id="b6M-C1-KXo"/>
+                                                <constraint firstItem="FCY-px-7HH" firstAttribute="top" secondItem="LBW-Fp-ZWI" secondAttribute="top" constant="5" id="A0C-CB-wXK"/>
+                                                <constraint firstAttribute="bottom" secondItem="FCY-px-7HH" secondAttribute="bottom" constant="5" id="b6M-C1-KXo"/>
                                                 <constraint firstAttribute="trailing" secondItem="FCY-px-7HH" secondAttribute="trailing" priority="900" constant="10" id="tqs-AR-Fb6"/>
                                                 <constraint firstItem="FCY-px-7HH" firstAttribute="leading" secondItem="LBW-Fp-ZWI" secondAttribute="leading" priority="850" constant="90" id="xjA-FX-Uq4"/>
                                             </constraints>
