@@ -80,6 +80,9 @@
                                     <constraint firstAttribute="height" constant="50" id="pwU-C9-79t"/>
                                 </constraints>
                                 <state key="normal" image="sendi"/>
+                                <connections>
+                                    <action selector="bt_SelectImage:" destination="M6I-tb-cCT" eventType="touchUpInside" id="dBx-Yx-rws"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS7-aD-XkD">
                                 <rect key="frame" x="325" y="679" width="50" height="50"/>
@@ -124,7 +127,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAv-hI-d9n" customClass="PaddingLabel" customModule="FrogCroak" customModuleProvider="target">
-                                                    <rect key="frame" x="60" y="32.333333333333336" width="265" height="24"/>
+                                                    <rect key="frame" x="60" y="32.333333333333336" width="0.0" height="24"/>
                                                     <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
@@ -133,11 +136,9 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zV0-xA-WJE" firstAttribute="top" secondItem="nQq-rb-LnS" secondAttribute="top" constant="10" id="11b-HQ-93U"/>
-                                                <constraint firstAttribute="trailing" secondItem="GAv-hI-d9n" secondAttribute="trailing" priority="850" constant="50" id="JwG-2W-44F"/>
                                                 <constraint firstItem="wwb-0u-GKK" firstAttribute="top" secondItem="nQq-rb-LnS" secondAttribute="topMargin" id="Tr7-5N-pK6"/>
                                                 <constraint firstItem="zV0-xA-WJE" firstAttribute="leading" secondItem="nQq-rb-LnS" secondAttribute="leading" constant="10" id="ZoO-ik-1d9"/>
                                                 <constraint firstItem="GAv-hI-d9n" firstAttribute="top" secondItem="wwb-0u-GKK" secondAttribute="bottom" constant="5" id="cZp-Tm-aWF"/>
-                                                <constraint firstItem="GAv-hI-d9n" firstAttribute="leading" secondItem="zV0-xA-WJE" secondAttribute="trailing" priority="900" constant="10" id="kvm-cz-xf7"/>
                                                 <constraint firstAttribute="bottom" secondItem="GAv-hI-d9n" secondAttribute="bottom" constant="5" id="vVG-mz-ayX"/>
                                                 <constraint firstItem="wwb-0u-GKK" firstAttribute="leading" secondItem="zV0-xA-WJE" secondAttribute="trailing" constant="10" id="yya-U5-CYO"/>
                                             </constraints>
@@ -150,8 +151,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCY-px-7HH" customClass="PaddingLabel" customModule="FrogCroak" customModuleProvider="target">
-                                                    <rect key="frame" x="90" y="5" width="275" height="34"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCY-px-7HH" customClass="PaddingLabel" customModule="FrogCroak" customModuleProvider="target">
+                                                    <rect key="frame" x="365" y="5" width="0.0" height="34"/>
                                                     <color key="backgroundColor" red="0.77647058823529413" green="0.89411764705882346" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
@@ -161,8 +162,23 @@
                                             <constraints>
                                                 <constraint firstItem="FCY-px-7HH" firstAttribute="top" secondItem="LBW-Fp-ZWI" secondAttribute="top" constant="5" id="A0C-CB-wXK"/>
                                                 <constraint firstAttribute="bottom" secondItem="FCY-px-7HH" secondAttribute="bottom" constant="5" id="b6M-C1-KXo"/>
-                                                <constraint firstAttribute="trailing" secondItem="FCY-px-7HH" secondAttribute="trailing" priority="900" constant="10" id="tqs-AR-Fb6"/>
-                                                <constraint firstItem="FCY-px-7HH" firstAttribute="leading" secondItem="LBW-Fp-ZWI" secondAttribute="leading" priority="850" constant="90" id="xjA-FX-Uq4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyImage" id="SB1-3u-Wq6">
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SB1-3u-Wq6" id="acy-Jy-BQv">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bjk-4K-7DL">
+                                                    <rect key="frame" x="67" y="5" width="240" height="34"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Bjk-4K-7DL" secondAttribute="bottom" constant="5" id="WJc-8Q-SUN"/>
+                                                <constraint firstItem="Bjk-4K-7DL" firstAttribute="top" secondItem="acy-Jy-BQv" secondAttribute="top" constant="5" id="hHe-Ns-7g1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

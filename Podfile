@@ -7,4 +7,5 @@ target 'FrogCroak' do
 
   # Pods for FrogCroak
   pod 'GoogleMaps'
+  pod 'Alamofire', '~> 4.5'
 end

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Alamofire
 
-class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var tf_Message: UITextField!
     @IBOutlet weak var table_Message: UITableView!
@@ -17,7 +18,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     private var keyboardHeight: CGFloat = 0
     private var messageView = MessageView(MessageList: [MessageView.Message]())
     
-    private var l_MessageMaxWidth: CGFloat = 0
+    private var contentMaxWidth: CGFloat = 0
     
     var db: OpaquePointer? = nil
     
@@ -150,6 +151,76 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         sqlite3_finalize(queryStatement)
     }
     
+    
+    @IBAction func bt_SelectImage(_ sender: UIButton) {
+        let ImagePicker = UIImagePickerController()
+        ImagePicker.sourceType = .photoLibrary
+        ImagePicker.delegate = self
+        present(ImagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //從info拿到照下的圖片
+        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+
+        let docUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        let interval = Date.timeIntervalSinceReferenceDate
+        let name = "\(interval).jpg"
+        let url = docUrl.appendingPathComponent(name)
+        
+        //把圖片存在APP裡
+        var Quality: CGFloat = 1.0
+        var data = UIImageJPEGRepresentation(selectedImage, Quality)!
+        while data.count / 1024 > 250 && Quality > 0.1 {
+            Quality -= 0.1
+            data = UIImageJPEGRepresentation(selectedImage, Quality)!
+        }
+        try! data.write(to: url)
+        
+        dismiss(animated: true, completion: nil)
+        
+        insertMessage(message: name, isme: 1, type: 1)
+        let messageStruct = MessageView.Message(message: name, isme: true, type: 1)
+        messageView.MessageList.append(messageStruct)
+        updateTableViewRow()
+        
+        //使用Alamofire上传
+        Alamofire.upload(
+            multipartFormData: {
+                multipartFormData in
+                
+                multipartFormData.append(url, withName: "file[0]", fileName: name, mimeType: "image/jpeg")
+            },
+            to: "https://frogcroak.azurewebsites.net/api/ImageApi/UploadImage",
+            headers: ["content-type":"multipart/form-data"],
+            encodingCompletion: {
+                encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _) :
+                    upload.responseJSON {
+                        response in
+                        self.insertMessage(message: response.result.value! as! String, isme: 0, type: 0)
+                        
+                        DispatchQueue.main.async {
+                            let messageStruct = MessageView.Message(message: response.result.value! as! String, isme: false, type: 0)
+                            self.messageView.MessageList.append(messageStruct)
+                            self.updateTableViewRow()
+                        }
+                    }
+                    break
+                case .failure(let encodingError) :
+                    print(encodingError)
+                    break
+                }
+        })
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func bt_SendMessage(_ sender: UIButton) {
         sendMessage()
     }
@@ -250,7 +321,41 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if contentMaxWidth == 0 {
+            contentMaxWidth = self.view.frame.size.width * 0.7
+        }
+        
         let cell: UITableViewCell
+        
+        if messageView.MessageList[indexPath.row].type == 1 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "MyImage", for: indexPath)
+            
+            let iv_MyImageView = cell.contentView.subviews[0] as! UIImageView
+            iv_MyImageView.translatesAutoresizingMaskIntoConstraints = true
+            
+            let docUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let url = docUrl.appendingPathComponent(messageView.MessageList[indexPath.row].message)
+            do {
+                let ImageData = try Data(contentsOf: url)
+                let Image = UIImage(data: ImageData)!
+                
+                iv_MyImageView.frame.size.width = contentMaxWidth
+                if Image.size.width > contentMaxWidth {
+                    iv_MyImageView.frame.size.height = Image.size.height / (Image.size.width / contentMaxWidth)
+                } else {
+                    iv_MyImageView.frame.size.height = Image.size.height * (contentMaxWidth / Image.size.width)
+                }
+                
+                iv_MyImageView.frame.origin.x = tableView.frame.width - contentMaxWidth - 10
+                
+                iv_MyImageView.image = Image
+            } catch {
+                print("Error loading image : \(error)")
+            }
+            
+            return cell
+        }
+        
         let l_Message: PaddingLabel
         
         if messageView.MessageList[indexPath.row].isme {
@@ -261,22 +366,16 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             l_Message = cell.contentView.subviews[2] as! PaddingLabel
         }
         
-        l_Message.text = messageView.MessageList[indexPath.row].message
-        
-        if l_MessageMaxWidth == 0 {
-            l_MessageMaxWidth = self.view.frame.size.width * 0.7 - 40
-        }
-        
         l_Message.translatesAutoresizingMaskIntoConstraints = true
         
-        let rect = l_Message.text!.boundingRect(with: CGSize(width: l_MessageMaxWidth, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
+        l_Message.text = messageView.MessageList[indexPath.row].message
+        
+        let rect = l_Message.text!.boundingRect(with: CGSize(width: contentMaxWidth - 40, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
         
         l_Message.frame.size.height = rect.height + 40
         
-        print("test \(l_Message.text!)")
-        print("test \(rect.height) \(tableView.frame.height)")
-        
         l_Message.frame.size.width = rect.width + 42
+        
         if messageView.MessageList[indexPath.row].isme {
             l_Message.frame.origin.x = tableView.frame.width - rect.width - 52
         } else {
@@ -285,7 +384,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         
         l_Message.layer.cornerRadius = 20
         l_Message.layer.masksToBounds = true
-        
 
         return cell
     }
