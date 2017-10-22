@@ -155,20 +155,61 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func sendMessage() {
-        if tf_Message.text! != "" {
-            insertMessage(message: tf_Message.text!, isme: 1, type: 0)
-            
-            let messageStruct = MessageView.Message(message: tf_Message.text!, isme: true, type: 0)
-            messageView.MessageList.append(messageStruct)
-            table_Message.beginUpdates()
-            table_Message.insertRows(at: [IndexPath(row: messageView.MessageList.count - 1, section: 0)], with: .automatic)
-            table_Message.endUpdates()
-            
-            table_Message.scrollToRow(at: IndexPath(row: messageView.MessageList.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-            
+        if let Content = tf_Message.text, Content != "" {
             tf_Message.resignFirstResponder()
             tf_Message.text = ""
+            
+            insertMessage(message: Content, isme: 1, type: 0)
+            let messageStruct = MessageView.Message(message: Content, isme: true, type: 0)
+            messageView.MessageList.append(messageStruct)
+            updateTableViewRow()
+            
+            var request = URLRequest(url: URL(string: "https://frogcroak.azurewebsites.net/api/MessageApi/CreateMessage")!)
+            request.httpMethod = "POST"
+            let postString = "Content=\(Content)"
+            request.httpBody = postString.data(using: .utf8)
+            URLSession.shared.dataTask(with: request, completionHandler: {
+                (data: Data?, response: URLResponse?, error: Error?) in
+                if error != nil {
+                    print("發生錯誤：\(error!.localizedDescription)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse {
+                    if response.statusCode == 200 {
+                        var result = String(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+                        
+                        let start = result.index(result.startIndex, offsetBy: 1)
+                        let end = result.index(result.endIndex, offsetBy: -1)
+                        result = String(result[start..<end])
+                        result = result.replacingOccurrences(of: "\\\\n", with: "\n")
+                        self.insertMessage(message: result, isme: 0, type: 0)
+                        
+                        DispatchQueue.main.async {
+                            let messageStruct = MessageView.Message(message: result, isme: false, type: 0)
+                            self.messageView.MessageList.append(messageStruct)
+                            self.updateTableViewRow()
+                        }
+
+                    } else {
+                        print("response.statusCode = \(response.statusCode)")
+                    }
+                    
+                } else {
+                    print("response 解析失敗")
+                }
+                
+                
+            }).resume()
         }
+    }
+    
+    func updateTableViewRow() {
+        table_Message.beginUpdates()
+        table_Message.insertRows(at: [IndexPath(row: messageView.MessageList.count - 1, section: 0)], with: .automatic)
+        table_Message.endUpdates()
+        
+        table_Message.scrollToRow(at: IndexPath(row: messageView.MessageList.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
     }
     
     @objc func keyboardWillShow(note: NSNotification) {
@@ -221,25 +262,25 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         l_Message.text = messageView.MessageList[indexPath.row].message
-        print(l_Message.text!)
         
         if l_MessageMaxWidth == 0 {
-            l_MessageMaxWidth = tableView.frame.size.width * 0.7 - 40
+            l_MessageMaxWidth = self.view.frame.size.width * 0.7 - 40
         }
         
         l_Message.translatesAutoresizingMaskIntoConstraints = true
         
-        let rect = l_Message.text!.boundingRect(with: CGSize(width: l_MessageMaxWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
+        let rect = l_Message.text!.boundingRect(with: CGSize(width: l_MessageMaxWidth, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
         
         l_Message.frame.size.height = rect.height + 40
         
-        if rect.width < l_MessageMaxWidth - 50 {
-            l_Message.frame.size.width = rect.width + 42
-            if messageView.MessageList[indexPath.row].isme {
-                l_Message.frame.origin.x = tableView.frame.width - rect.width - 52
-            } else {
-                l_Message.frame.origin.x = cell.contentView.subviews[0].frame.width + 20
-            }
+        print("test \(l_Message.text!)")
+        print("test \(rect.height) \(tableView.frame.height)")
+        
+        l_Message.frame.size.width = rect.width + 42
+        if messageView.MessageList[indexPath.row].isme {
+            l_Message.frame.origin.x = tableView.frame.width - rect.width - 52
+        } else {
+            l_Message.frame.origin.x = cell.contentView.subviews[0].frame.width + 20
         }
         
         l_Message.layer.cornerRadius = 20

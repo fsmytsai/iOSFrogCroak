@@ -4,7 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -118,7 +118,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="呱呱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wwb-0u-GKK">
-                                                    <rect key="frame" x="60.000000000000007" y="8" width="32.666666666666679" height="19.333333333333329"/>
+                                                    <rect key="frame" x="60" y="8" width="32.666666666666657" height="19.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -211,30 +211,13 @@
                     <view key="view" contentMode="scaleToFill" id="e1B-Cs-kKJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="55k-ea-crY">
-                                <rect key="frame" x="0.0" y="246" width="375" height="441"/>
-                                <connections>
-                                    <outlet property="delegate" destination="QcT-ay-T8r" id="J1r-IM-GYx"/>
-                                </connections>
-                            </mapView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="N1q-k9-LwO" firstAttribute="trailing" secondItem="55k-ea-crY" secondAttribute="trailing" id="Evt-In-0No"/>
-                            <constraint firstItem="N1q-k9-LwO" firstAttribute="bottom" secondItem="55k-ea-crY" secondAttribute="bottom" id="Hll-Mq-CrL"/>
-                            <constraint firstItem="55k-ea-crY" firstAttribute="leading" secondItem="N1q-k9-LwO" secondAttribute="leading" id="cLS-MT-7Hb"/>
-                            <constraint firstItem="55k-ea-crY" firstAttribute="top" secondItem="e1B-Cs-kKJ" secondAttribute="top" id="ieh-Bu-O8O"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="N1q-k9-LwO"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="map" id="pmT-06-MkN">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
-                    <connections>
-                        <outlet property="map" destination="55k-ea-crY" id="dkq-tn-EAQ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w90-Nu-e5x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -1,0 +1,6 @@
+framework module Pods_FrogCroak {
+  umbrella header "Pods-FrogCroak-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -7,81 +7,66 @@
 //
 
 import UIKit
-import MapKit
+import GoogleMaps
 
-class MapViewController: UIViewController, MKMapViewDelegate {
-
-    @IBOutlet weak var map: MKMapView!
+class MapViewController: UIViewController {
+    
+    var mapView: GMSMapView! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let Lat: CLLocationDegrees = 23.674764
-        let Lng: CLLocationDegrees = 120.92
-        
-        let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Lat, Lng)
-        
-        let LatDelta: CLLocationDegrees = 4.5
-        let LngDelta: CLLocationDegrees = 4.5
-        
-        let span: MKCoordinateSpan = MKCoordinateSpanMake(LatDelta, LngDelta)
-        let region: MKCoordinateRegion = MKCoordinateRegionMake(coordinate, span)
-        map.setRegion(region, animated: true)
-        addMarkers()
+        let camera = GMSCameraPosition.camera(withLatitude: 23.674764, longitude: 120.796819, zoom: 7.3)
+        mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView.isMyLocationEnabled = true
+        view = mapView
+
+        GetMarkers()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation{
-            return nil
-        }
-        let Identifier = "MyPin"
-        var result = mapView.dequeueReusableAnnotationView(withIdentifier: Identifier)
-        if result == nil{
-            result = MKAnnotationView(annotation: annotation, reuseIdentifier: Identifier)
-        } else {
-            result?.annotation = annotation
-        }
-        result?.canShowCallout = true
-        result?.image = UIImage(named: "normal")
-        return result
-    }
 
-    func addMarkers(){
+    func GetMarkers(){
         let Url = URL(string: "https://frogcroak.azurewebsites.net/api/MarkerApi/GetMarkerList")
         URLSession.shared.dataTask(with: Url!, completionHandler: {
             (data: Data?, response: URLResponse?, error: Error?) in
-            if error != nil{ //如果有錯誤的話，印出錯誤，
+            if error != nil {
                 print("發生錯誤：\(error!.localizedDescription)")
-                return       //有錯誤，跳出不再繼續執行
+                return
             }
             
-            let decoder = JSONDecoder()
-            
-            if let data = data, let markerView = try? decoder.decode(MarkerView.self, from: data)
-            {
-                DispatchQueue.main.async {
-
-                    for marker in markerView.MarkerList {
-                        let Lat: CLLocationDegrees = marker.Latitude
-                        let Lng: CLLocationDegrees = marker.Longitude
-
-                        let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Lat, Lng)
-
-                        let annotation = MKPointAnnotation()
-                        annotation.coordinate = coordinate
-                        annotation.title = marker.Title
-                        annotation.subtitle = marker.Content
-                        self.map.addAnnotation(annotation)
+            if let response = response as? HTTPURLResponse {
+                if response.statusCode == 200 {
+                    if let markerView = try? JSONDecoder().decode(MarkerView.self, from: data!)
+                    {
+                        DispatchQueue.main.async {
+                            
+                            for var marker in markerView.MarkerList {
+                                marker.Content = marker.Content.replacingOccurrences(of: "\\n", with: "\n")
+                                // Creates a marker
+                                let gmsMarker = GMSMarker()
+                                gmsMarker.position = CLLocationCoordinate2D(latitude: marker.Latitude, longitude: marker.Longitude)
+                                gmsMarker.title = marker.Title
+                                gmsMarker.snippet = marker.Content
+                                gmsMarker.icon = UIImage(named: "normal")
+                                gmsMarker.map = self.mapView
+                            }
+                        }
+                    } else {
+                        print("json 解析失敗")
                     }
+                } else {
+                    print("response.statusCode = \(response.statusCode)")
                 }
+
             } else {
-                print("error")
+                print("response 解析失敗")
             }
+            
+
         }).resume()
     }
 

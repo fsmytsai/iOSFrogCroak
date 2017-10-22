@@ -19,9 +19,11 @@
 		26B89C281F8CC0030043DC55 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 26B89C271F8CC0030043DC55 /* libsqlite3.tbd */; };
 		26B89C2B1F8D2E0D0043DC55 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */; };
 		26BEFCAC1F7FD2BE00207B7E /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */; };
+		9A763437E6FAD92DBF56D62C /* Pods_FrogCroak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADA5517DF649A52F0524CA2 /* Pods_FrogCroak.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06667C5CDAAF3373B562D1D4 /* Pods-FrogCroak.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrogCroak.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak.debug.xcconfig"; sourceTree = "<group>"; };
 		2662CA851F7E981D0002FCB0 /* FrogCroak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrogCroak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2662CA881F7E981D0002FCB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2662CA8A1F7E981D0002FCB0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +39,8 @@
 		26B89C291F8CC0290043DC55 /* BridgeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeHeader.h; sourceTree = "<group>"; };
 		26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		9D01224DEC1401A66CC1D4E1 /* Pods-FrogCroak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrogCroak.release.xcconfig"; path = "Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak.release.xcconfig"; sourceTree = "<group>"; };
+		BADA5517DF649A52F0524CA2 /* Pods_FrogCroak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FrogCroak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,18 +49,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				26B89C281F8CC0030043DC55 /* libsqlite3.tbd in Frameworks */,
+				9A763437E6FAD92DBF56D62C /* Pods_FrogCroak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		076A6533407D0E184F8C24E6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				06667C5CDAAF3373B562D1D4 /* Pods-FrogCroak.debug.xcconfig */,
+				9D01224DEC1401A66CC1D4E1 /* Pods-FrogCroak.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		2662CA7C1F7E981D0002FCB0 = {
 			isa = PBXGroup;
 			children = (
 				2662CA871F7E981D0002FCB0 /* FrogCroak */,
 				2662CA861F7E981D0002FCB0 /* Products */,
 				26B89C261F8CC0030043DC55 /* Frameworks */,
+				076A6533407D0E184F8C24E6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				26B89C271F8CC0030043DC55 /* libsqlite3.tbd */,
+				BADA5517DF649A52F0524CA2 /* Pods_FrogCroak.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,9 +135,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2662CA971F7E981D0002FCB0 /* Build configuration list for PBXNativeTarget "FrogCroak" */;
 			buildPhases = (
+				6ED9E0639A36B5578B691D4C /* [CP] Check Pods Manifest.lock */,
 				2662CA811F7E981D0002FCB0 /* Sources */,
 				2662CA821F7E981D0002FCB0 /* Frameworks */,
 				2662CA831F7E981D0002FCB0 /* Resources */,
+				C556A0F7AD00BD2774D03479 /* [CP] Embed Pods Frameworks */,
+				9346B01B500E7E82CD9453EB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -178,6 +197,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6ED9E0639A36B5578B691D4C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FrogCroak-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9346B01B500E7E82CD9453EB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C556A0F7AD00BD2774D03479 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2662CA811F7E981D0002FCB0 /* Sources */ = {
@@ -326,6 +399,7 @@
 		};
 		2662CA981F7E981D0002FCB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06667C5CDAAF3373B562D1D4 /* Pods-FrogCroak.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -341,6 +415,7 @@
 		};
 		2662CA991F7E981D0002FCB0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D01224DEC1401A66CC1D4E1 /* Pods-FrogCroak.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
