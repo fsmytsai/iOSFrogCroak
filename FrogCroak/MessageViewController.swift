@@ -189,7 +189,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         Alamofire.upload(
             multipartFormData: {
                 multipartFormData in
-                
                 multipartFormData.append(url, withName: "file[0]", fileName: name, mimeType: "image/jpeg")
             },
             to: "https://frogcroak.azurewebsites.net/api/ImageApi/UploadImage",

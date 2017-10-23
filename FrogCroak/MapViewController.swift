@@ -37,13 +37,13 @@ class MapViewController: UIViewController {
                 print("發生錯誤：\(error!.localizedDescription)")
                 return
             }
-            
+
             if let response = response as? HTTPURLResponse {
                 if response.statusCode == 200 {
                     if let markerView = try? JSONDecoder().decode(MarkerView.self, from: data!)
                     {
                         DispatchQueue.main.async {
-                            
+
                             for var marker in markerView.MarkerList {
                                 marker.Content = marker.Content.replacingOccurrences(of: "\\n", with: "\n")
                                 // Creates a marker
@@ -65,8 +65,6 @@ class MapViewController: UIViewController {
             } else {
                 print("response 解析失敗")
             }
-            
-
         }).resume()
     }
 

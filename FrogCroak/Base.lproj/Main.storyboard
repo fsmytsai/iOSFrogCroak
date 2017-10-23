@@ -51,7 +51,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="60" y="818"/>
+            <point key="canvasLocation" x="60" y="648"/>
         </scene>
         <!--Message View Controller-->
         <scene sceneID="gP7-uV-p6b">
@@ -121,7 +121,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="呱呱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wwb-0u-GKK">
-                                                    <rect key="frame" x="60" y="8" width="32.666666666666657" height="19.333333333333329"/>
+                                                    <rect key="frame" x="60" y="8" width="33" height="19.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -218,7 +218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rYo-FF-W9e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1098" y="1347"/>
+            <point key="canvasLocation" x="1097" y="1535"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="fwu-sG-6l2">
@@ -261,20 +261,73 @@
         <!--Audio View Controller-->
         <scene sceneID="km9-Vb-OQW">
             <objects>
-                <viewController id="Qvi-ON-ZeP" userLabel="Audio View Controller" sceneMemberID="viewController">
+                <viewController id="Qvi-ON-ZeP" userLabel="Audio View Controller" customClass="AudioViewController" customModule="FrogCroak" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3O3-Xa-2Zg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnb-Vi-QZS">
+                                <rect key="frame" x="74.666666666666671" y="154" width="60.000000000000014" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="BgX-5F-ZLU"/>
+                                    <constraint firstAttribute="height" constant="60" id="g43-sb-YKG"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="uploadwav"/>
+                                <connections>
+                                    <action selector="chooseWAVFile:" destination="Qvi-ON-ZeP" eventType="touchUpInside" id="6u5-w9-P0r"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請上傳wav音檔或錄音" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNw-td-hPJ">
+                                <rect key="frame" x="64.666666666666686" y="84" width="246" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="結果" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znz-8R-ZWs">
+                                <rect key="frame" x="162" y="274" width="51" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T48-Z4-Tnh">
+                                <rect key="frame" x="20" y="354" width="335" height="355"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iiC-Jh-OdV">
+                                <rect key="frame" x="240.66666666666663" y="154" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="Y7r-Ys-gLH"/>
+                                    <constraint firstAttribute="height" constant="60" id="ZuN-J8-Ow8"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="recordbtn"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iiC-Jh-OdV" firstAttribute="top" secondItem="RNw-td-hPJ" secondAttribute="bottom" constant="40" id="B6x-s2-z5A"/>
+                            <constraint firstItem="Znz-8R-ZWs" firstAttribute="centerX" secondItem="3O3-Xa-2Zg" secondAttribute="centerX" id="NTN-Wg-N9h"/>
+                            <constraint firstItem="u3D-OP-mVK" firstAttribute="trailing" secondItem="T48-Z4-Tnh" secondAttribute="trailing" constant="20" id="NeV-F9-lAz"/>
+                            <constraint firstItem="Nnb-Vi-QZS" firstAttribute="leading" secondItem="RNw-td-hPJ" secondAttribute="leading" constant="10" id="Xoo-Tw-ZRZ"/>
+                            <constraint firstItem="RNw-td-hPJ" firstAttribute="centerX" secondItem="3O3-Xa-2Zg" secondAttribute="centerX" id="YQX-Ay-YkK"/>
+                            <constraint firstItem="RNw-td-hPJ" firstAttribute="top" secondItem="u3D-OP-mVK" secondAttribute="top" constant="40" id="dno-S5-4RV"/>
+                            <constraint firstItem="T48-Z4-Tnh" firstAttribute="leading" secondItem="u3D-OP-mVK" secondAttribute="leading" constant="20" id="e9G-Uf-ebQ"/>
+                            <constraint firstItem="Znz-8R-ZWs" firstAttribute="top" secondItem="Nnb-Vi-QZS" secondAttribute="bottom" constant="60" id="hNL-gy-R6v"/>
+                            <constraint firstItem="RNw-td-hPJ" firstAttribute="trailing" secondItem="iiC-Jh-OdV" secondAttribute="trailing" constant="10" id="m6V-kz-gG4"/>
+                            <constraint firstItem="u3D-OP-mVK" firstAttribute="bottom" secondItem="T48-Z4-Tnh" secondAttribute="bottom" constant="20" id="meF-Ku-2Yu"/>
+                            <constraint firstItem="T48-Z4-Tnh" firstAttribute="top" secondItem="Znz-8R-ZWs" secondAttribute="bottom" constant="50" id="p5A-Fd-h9r"/>
+                            <constraint firstItem="Nnb-Vi-QZS" firstAttribute="top" secondItem="RNw-td-hPJ" secondAttribute="bottom" constant="40" id="wvr-E1-eTu"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="u3D-OP-mVK"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="audio" id="THt-ae-xgR">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="iv_ResultFrogImage" destination="T48-Z4-Tnh" id="0Bx-sP-jap"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKY-Kz-9Kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1097" y="2100"/>
+            <point key="canvasLocation" x="1097" y="2492"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="cmh-kR-mWt">
@@ -303,7 +356,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ri4-o0-Vlq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-788" y="818"/>
+            <point key="canvasLocation" x="-520" y="1051"/>
         </scene>
     </scenes>
     <resources>
@@ -311,7 +364,9 @@
         <image name="lfrog" width="627" height="617"/>
         <image name="map" width="48" height="48"/>
         <image name="message" width="48" height="48"/>
+        <image name="recordbtn" width="108" height="108"/>
         <image name="sendi" width="108" height="108"/>
         <image name="sendm" width="108" height="108"/>
+        <image name="uploadwav" width="108" height="108"/>
     </resources>
 </document>
