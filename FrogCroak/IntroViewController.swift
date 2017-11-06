@@ -17,7 +17,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         sv_Intro.contentSize.width = view.frame.width * 4
-        for i in 0..<4{
+        for i in 0..<4 {
             let OneView = UIView(frame: CGRect(
                                 x: CGFloat(i) * view.frame.size.width,
                                 y: 0,

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="R5C-3o-gR7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="R5C-3o-gR7">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -266,19 +266,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnb-Vi-QZS">
-                                <rect key="frame" x="74.666666666666671" y="154" width="60.000000000000014" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="BgX-5F-ZLU"/>
-                                    <constraint firstAttribute="height" constant="60" id="g43-sb-YKG"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="uploadwav"/>
-                                <connections>
-                                    <action selector="chooseWAVFile:" destination="Qvi-ON-ZeP" eventType="touchUpInside" id="6u5-w9-P0r"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請上傳wav音檔或錄音" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNw-td-hPJ">
-                                <rect key="frame" x="64.666666666666686" y="84" width="246" height="30"/>
+                                <rect key="frame" x="65" y="84" width="246" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -293,28 +282,29 @@
                                 <rect key="frame" x="20" y="354" width="335" height="355"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iiC-Jh-OdV">
-                                <rect key="frame" x="240.66666666666663" y="154" width="60" height="60"/>
+                                <rect key="frame" x="157.66666666666666" y="154" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="Y7r-Ys-gLH"/>
                                     <constraint firstAttribute="height" constant="60" id="ZuN-J8-Ow8"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="recordbtn"/>
+                                <connections>
+                                    <action selector="record:" destination="Qvi-ON-ZeP" eventType="touchUpInside" id="IC9-aY-4TZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="iiC-Jh-OdV" firstAttribute="centerX" secondItem="3O3-Xa-2Zg" secondAttribute="centerX" id="9XN-0a-pgh"/>
                             <constraint firstItem="iiC-Jh-OdV" firstAttribute="top" secondItem="RNw-td-hPJ" secondAttribute="bottom" constant="40" id="B6x-s2-z5A"/>
                             <constraint firstItem="Znz-8R-ZWs" firstAttribute="centerX" secondItem="3O3-Xa-2Zg" secondAttribute="centerX" id="NTN-Wg-N9h"/>
                             <constraint firstItem="u3D-OP-mVK" firstAttribute="trailing" secondItem="T48-Z4-Tnh" secondAttribute="trailing" constant="20" id="NeV-F9-lAz"/>
-                            <constraint firstItem="Nnb-Vi-QZS" firstAttribute="leading" secondItem="RNw-td-hPJ" secondAttribute="leading" constant="10" id="Xoo-Tw-ZRZ"/>
                             <constraint firstItem="RNw-td-hPJ" firstAttribute="centerX" secondItem="3O3-Xa-2Zg" secondAttribute="centerX" id="YQX-Ay-YkK"/>
                             <constraint firstItem="RNw-td-hPJ" firstAttribute="top" secondItem="u3D-OP-mVK" secondAttribute="top" constant="40" id="dno-S5-4RV"/>
                             <constraint firstItem="T48-Z4-Tnh" firstAttribute="leading" secondItem="u3D-OP-mVK" secondAttribute="leading" constant="20" id="e9G-Uf-ebQ"/>
-                            <constraint firstItem="Znz-8R-ZWs" firstAttribute="top" secondItem="Nnb-Vi-QZS" secondAttribute="bottom" constant="60" id="hNL-gy-R6v"/>
-                            <constraint firstItem="RNw-td-hPJ" firstAttribute="trailing" secondItem="iiC-Jh-OdV" secondAttribute="trailing" constant="10" id="m6V-kz-gG4"/>
+                            <constraint firstItem="Znz-8R-ZWs" firstAttribute="top" secondItem="iiC-Jh-OdV" secondAttribute="bottom" constant="60" id="hNL-gy-R6v"/>
                             <constraint firstItem="u3D-OP-mVK" firstAttribute="bottom" secondItem="T48-Z4-Tnh" secondAttribute="bottom" constant="20" id="meF-Ku-2Yu"/>
                             <constraint firstItem="T48-Z4-Tnh" firstAttribute="top" secondItem="Znz-8R-ZWs" secondAttribute="bottom" constant="50" id="p5A-Fd-h9r"/>
-                            <constraint firstItem="Nnb-Vi-QZS" firstAttribute="top" secondItem="RNw-td-hPJ" secondAttribute="bottom" constant="40" id="wvr-E1-eTu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u3D-OP-mVK"/>
                     </view>
@@ -322,7 +312,9 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="bt_Record" destination="iiC-Jh-OdV" id="fb8-X0-I5I"/>
                         <outlet property="iv_ResultFrogImage" destination="T48-Z4-Tnh" id="0Bx-sP-jap"/>
+                        <outlet property="l_Result" destination="Znz-8R-ZWs" id="LM0-GE-KbW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKY-Kz-9Kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -356,7 +348,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ri4-o0-Vlq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-520" y="1051"/>
+            <point key="canvasLocation" x="-694" y="1068"/>
         </scene>
     </scenes>
     <resources>
@@ -367,6 +359,5 @@
         <image name="recordbtn" width="108" height="108"/>
         <image name="sendi" width="108" height="108"/>
         <image name="sendm" width="108" height="108"/>
-        <image name="uploadwav" width="108" height="108"/>
     </resources>
 </document>
