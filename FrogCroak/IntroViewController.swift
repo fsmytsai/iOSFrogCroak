@@ -48,18 +48,11 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
                 StartButton.layer.cornerRadius = 20
                 
                 StartButton.addTarget(self, action: #selector(self.start(sender:)), for: .touchUpInside)
+                StartButton.frame.size = CGSize(width: view.frame.width / 2, height: 80)
                 
                 OneView.addSubview(StartButton)
                 
-                StartButton.translatesAutoresizingMaskIntoConstraints = false
-                
-                OneView.addConstraint(NSLayoutConstraint(item: StartButton, attribute: .centerX, relatedBy: .equal, toItem: OneView, attribute: .centerX, multiplier: 1, constant: 0))
-                
-                OneView.addConstraint(NSLayoutConstraint(item: StartButton, attribute: .centerY, relatedBy: .equal, toItem: OneView, attribute: .centerY, multiplier: 1, constant: 0))
-                
-                OneView.addConstraint(NSLayoutConstraint(item: StartButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: view.frame.size.width / 2))
-                
-                OneView.addConstraint(NSLayoutConstraint(item: StartButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 80))
+                StartButton.center = view.convert(view.center, from: view.superview)
             }
             
             sv_Intro.addSubview(OneView)

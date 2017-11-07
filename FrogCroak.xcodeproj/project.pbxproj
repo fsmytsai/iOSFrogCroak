@@ -15,10 +15,10 @@
 		26785EE41F8A6C9B001589A4 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26785EE31F8A6C9B001589A4 /* PaddingLabel.swift */; };
 		26785EE61F8A6E84001589A4 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26785EE51F8A6E84001589A4 /* MessageViewController.swift */; };
 		26951FCF1F81C3C7000396F4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26951FCE1F81C3C7000396F4 /* MapViewController.swift */; };
-		26951FD21F81D92F000396F4 /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26951FD11F81D92F000396F4 /* MarkerView.swift */; };
+		26951FD21F81D92F000396F4 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26951FD11F81D92F000396F4 /* Markers.swift */; };
 		26AB1D121F9D7A6400636594 /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AB1D111F9D7A6400636594 /* AudioViewController.swift */; };
 		26B89C281F8CC0030043DC55 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 26B89C271F8CC0030043DC55 /* libsqlite3.tbd */; };
-		26B89C2B1F8D2E0D0043DC55 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */; };
+		26B89C2B1F8D2E0D0043DC55 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B89C2A1F8D2E0D0043DC55 /* Message.swift */; };
 		26BEFCAC1F7FD2BE00207B7E /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */; };
 		9A763437E6FAD92DBF56D62C /* Pods_FrogCroak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADA5517DF649A52F0524CA2 /* Pods_FrogCroak.framework */; };
 /* End PBXBuildFile section */
@@ -35,11 +35,11 @@
 		26785EE31F8A6C9B001589A4 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		26785EE51F8A6E84001589A4 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		26951FCE1F81C3C7000396F4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		26951FD11F81D92F000396F4 /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
+		26951FD11F81D92F000396F4 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		26AB1D111F9D7A6400636594 /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
 		26B89C271F8CC0030043DC55 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		26B89C291F8CC0290043DC55 /* BridgeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeHeader.h; sourceTree = "<group>"; };
-		26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		26B89C2A1F8D2E0D0043DC55 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		26BEFCAB1F7FD2BE00207B7E /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		9D01224DEC1401A66CC1D4E1 /* Pods-FrogCroak.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrogCroak.release.xcconfig"; path = "Pods/Target Support Files/Pods-FrogCroak/Pods-FrogCroak.release.xcconfig"; sourceTree = "<group>"; };
 		BADA5517DF649A52F0524CA2 /* Pods_FrogCroak.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FrogCroak.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				26B89C241F8CBF0D0043DC55 /* SQLite */,
-				26951FD01F81D906000396F4 /* ViewModels */,
+				26951FD01F81D906000396F4 /* Models */,
 				2662CA881F7E981D0002FCB0 /* AppDelegate.swift */,
 				2662CA8A1F7E981D0002FCB0 /* ViewController.swift */,
 				2662CA8C1F7E981D0002FCB0 /* Main.storyboard */,
@@ -105,13 +105,13 @@
 			path = FrogCroak;
 			sourceTree = "<group>";
 		};
-		26951FD01F81D906000396F4 /* ViewModels */ = {
+		26951FD01F81D906000396F4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				26951FD11F81D92F000396F4 /* MarkerView.swift */,
-				26B89C2A1F8D2E0D0043DC55 /* MessageView.swift */,
+				26951FD11F81D92F000396F4 /* Markers.swift */,
+				26B89C2A1F8D2E0D0043DC55 /* Message.swift */,
 			);
-			path = ViewModels;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		26B89C241F8CBF0D0043DC55 /* SQLite */ = {
@@ -267,9 +267,9 @@
 				26BEFCAC1F7FD2BE00207B7E /* IntroViewController.swift in Sources */,
 				2662CA8B1F7E981D0002FCB0 /* ViewController.swift in Sources */,
 				2662CA891F7E981D0002FCB0 /* AppDelegate.swift in Sources */,
-				26B89C2B1F8D2E0D0043DC55 /* MessageView.swift in Sources */,
+				26B89C2B1F8D2E0D0043DC55 /* Message.swift in Sources */,
 				26AB1D121F9D7A6400636594 /* AudioViewController.swift in Sources */,
-				26951FD21F81D92F000396F4 /* MarkerView.swift in Sources */,
+				26951FD21F81D92F000396F4 /* Markers.swift in Sources */,
 				26951FCF1F81C3C7000396F4 /* MapViewController.swift in Sources */,
 				26785EE61F8A6E84001589A4 /* MessageViewController.swift in Sources */,
 			);

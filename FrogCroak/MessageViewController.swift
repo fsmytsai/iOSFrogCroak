@@ -10,21 +10,29 @@ import UIKit
 import Alamofire
 
 class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var tf_Message: UITextField!
     @IBOutlet weak var table_Message: UITableView!
     
     private var isKeyboardShown = false
     private var keyboardHeight: CGFloat = 0
-    private var messageView = MessageView(MessageList: [MessageView.Message]())
+    private var messageArr = [Message]()
     
     private var contentMaxWidth: CGFloat = 0
+    private var rawValueDictionary = [String:CGFloat]()
+    private var imageCache = NSCache<AnyObject, AnyObject>()
     
-    var db: OpaquePointer? = nil
+    private var db: OpaquePointer? = nil
+    private var nowPage: Int = 0
+    
+    private var isLoading = false
+    private var isFinishLoad = false
+    
+    private var newMessageCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        contentMaxWidth = view.frame.width * 0.7
         setPushFrameAndTapCloseKB()
         
         openDatabase()
@@ -33,21 +41,22 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         readMessages()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if (self.table_Message.contentSize.height > self.table_Message.frame.height)
-        {
-            table_Message.scrollToRow(at: IndexPath(row: messageView.MessageList.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
-        }
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        if (self.table_Message.contentSize.height > self.table_Message.frame.height)
+//        {
+//            table_Message.scrollToRow(at: IndexPath(row: messageArr.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+//        }
+//    }
     
     func setPushFrameAndTapCloseKB(){
-        //監控開啟關閉鍵盤
+        //監控開啟鍵盤
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.keyboardWillShow(note:)),
             name: NSNotification.Name.UIKeyboardWillShow,
             object: nil)
         
+        //監控關閉鍵盤
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.keyboardWillHide(note:)),
@@ -60,13 +69,13 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             target: self,
             action: #selector(self.tapTableView(_:)))
         
-        // 點幾下才觸發 設置 2 時 則是要點兩下才會觸發 依此類推
+        //點1下觸發
         singleFinger.numberOfTapsRequired = 1
         
-        // 幾根指頭觸發
+        //一根手指觸發
         singleFinger.numberOfTouchesRequired = 1
         
-        // 為視圖加入監聽手勢
+        //為視圖加入監聽手勢
         self.view.addGestureRecognizer(singleFinger)
     }
     
@@ -82,8 +91,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             //資料庫開啟成功則新建資料表
             createTable()
         } else {
-            print("Unable to open database. Verify that you created the directory described " +
-                "in the Getting Started section.")
+            print("Unable to open database. Verify that you created the directory described")
         }
     }
     
@@ -120,6 +128,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             sqlite3_bind_int(insertStatement, 3, type)
             
             if sqlite3_step(insertStatement) == SQLITE_DONE {
+                newMessageCount += 1
                 print("Successfully inserted row.")
             } else {
                 print("Could not insert row.")
@@ -132,17 +141,30 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func readMessages() {
-        let queryStatementString = "SELECT * FROM messages;"
+        let queryStatementString = "SELECT * FROM messages ORDER BY _id DESC LIMIT \(nowPage * 10 + newMessageCount),10 ;"
         var queryStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
-            
+            nowPage += 1
+            var loadTimes = 0
             while (sqlite3_step(queryStatement) == SQLITE_ROW) {
                 let messageQueryResult = sqlite3_column_text(queryStatement, 1)
                 let message = String(cString: messageQueryResult!)
                 let isme = sqlite3_column_int(queryStatement, 2)
                 let type = sqlite3_column_int(queryStatement, 3)
-                let messageStruct = MessageView.Message(message: message, isme: isme == 1, type: Int(type))
-                messageView.MessageList.append(messageStruct)
+                let messageStruct = Message(message: message, isme: isme == 1, type: Int(type))
+                messageArr.append(messageStruct)
+                loadTimes += 1
+            }
+            
+            print("messageArr=\(messageArr)")
+            
+            if isLoading {
+                table_Message.reloadData()
+                isLoading = false
+            }
+            
+            if loadTimes < 10 {
+                isFinishLoad = true
             }
             
         } else {
@@ -162,7 +184,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         //從info拿到照下的圖片
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-
+        
         let docUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         let interval = Date.timeIntervalSinceReferenceDate
@@ -181,8 +203,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         dismiss(animated: true, completion: nil)
         
         insertMessage(message: name, isme: 1, type: 1)
-        let messageStruct = MessageView.Message(message: name, isme: true, type: 1)
-        messageView.MessageList.append(messageStruct)
+        let messageStruct = Message(message: name, isme: true, type: 1)
+        self.messageArr.insert(messageStruct, at: 0)
         updateTableViewRow()
         
         //使用Alamofire上传
@@ -190,7 +212,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             multipartFormData: {
                 multipartFormData in
                 multipartFormData.append(url, withName: "file[0]", fileName: name, mimeType: "image/jpeg")
-            },
+        },
             to: "https://frogcroak.azurewebsites.net/api/ImageApi/UploadImage",
             headers: ["content-type":"multipart/form-data"],
             encodingCompletion: {
@@ -202,8 +224,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.insertMessage(message: response.result.value! as! String, isme: 0, type: 0)
                         
                         DispatchQueue.main.async {
-                            let messageStruct = MessageView.Message(message: response.result.value! as! String, isme: false, type: 0)
-                            self.messageView.MessageList.append(messageStruct)
+                            let messageStruct = Message(message: response.result.value! as! String, isme: false, type: 0)
+                            self.messageArr.insert(messageStruct, at: 0)
                             self.updateTableViewRow()
                         }
                     }
@@ -230,8 +252,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             tf_Message.text = ""
             
             insertMessage(message: Content, isme: 1, type: 0)
-            let messageStruct = MessageView.Message(message: Content, isme: true, type: 0)
-            messageView.MessageList.append(messageStruct)
+            let messageStruct = Message(message: Content, isme: true, type: 0)
+            messageArr.insert(messageStruct, at: 0)
             updateTableViewRow()
             
             var request = URLRequest(url: URL(string: "https://frogcroak.azurewebsites.net/api/MessageApi/CreateMessage")!)
@@ -256,11 +278,11 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.insertMessage(message: result, isme: 0, type: 0)
                         
                         DispatchQueue.main.async {
-                            let messageStruct = MessageView.Message(message: result, isme: false, type: 0)
-                            self.messageView.MessageList.append(messageStruct)
+                            let messageStruct = Message(message: result, isme: false, type: 0)
+                            self.messageArr.insert(messageStruct, at: 0)
                             self.updateTableViewRow()
                         }
-
+                        
                     } else {
                         print("response.statusCode = \(response.statusCode)")
                     }
@@ -269,17 +291,16 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
                     print("response 解析失敗")
                 }
                 
-                
             }).resume()
         }
     }
     
     func updateTableViewRow() {
         table_Message.beginUpdates()
-        table_Message.insertRows(at: [IndexPath(row: messageView.MessageList.count - 1, section: 0)], with: .automatic)
+        table_Message.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         table_Message.endUpdates()
         
-        table_Message.scrollToRow(at: IndexPath(row: messageView.MessageList.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+        table_Message.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
     }
     
     @objc func keyboardWillShow(note: NSNotification) {
@@ -316,34 +337,41 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messageView.MessageList.count
+        return messageArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if contentMaxWidth == 0 {
-            contentMaxWidth = self.view.frame.size.width * 0.7
-        }
-        
         let cell: UITableViewCell
         
-        if messageView.MessageList[indexPath.row].type == 1 {
+        if messageArr[indexPath.row].type == 1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "MyImage", for: indexPath)
             
             let iv_MyImageView = cell.contentView.subviews[0] as! UIImageView
             iv_MyImageView.translatesAutoresizingMaskIntoConstraints = true
             
             let docUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let url = docUrl.appendingPathComponent(messageView.MessageList[indexPath.row].message)
+            let url = docUrl.appendingPathComponent(messageArr[indexPath.row].message)
             do {
-                let ImageData = try Data(contentsOf: url)
-                let Image = UIImage(data: ImageData)!
+                //從快取取出
+                var ImageData = self.imageCache.object(forKey: url as AnyObject) as? Data
+                if ImageData == nil {
+                    ImageData = try Data(contentsOf: url)
+                    //存入快取
+                    self.imageCache.setObject(ImageData as AnyObject, forKey: url as AnyObject)
+                }
+                let Image = UIImage(data: ImageData!)!
                 
                 iv_MyImageView.frame.size.width = contentMaxWidth
-                if Image.size.width > contentMaxWidth {
-                    iv_MyImageView.frame.size.height = Image.size.height / (Image.size.width / contentMaxWidth)
-                } else {
-                    iv_MyImageView.frame.size.height = Image.size.height * (contentMaxWidth / Image.size.width)
+                
+                if rawValueDictionary["\(messageArr[indexPath.row].message)ih"] == nil {
+                    if Image.size.width > contentMaxWidth {
+                        rawValueDictionary["\(messageArr[indexPath.row].message)ih"] = Image.size.height / (Image.size.width / contentMaxWidth)
+                    } else {
+                        rawValueDictionary["\(messageArr[indexPath.row].message)ih"] = Image.size.height * (contentMaxWidth / Image.size.width)
+                    }
                 }
+                
+                iv_MyImageView.frame.size.height = rawValueDictionary["\(messageArr[indexPath.row].message)ih"]!
                 
                 iv_MyImageView.frame.origin.x = tableView.frame.width - contentMaxWidth - 10
                 
@@ -357,7 +385,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let l_Message: PaddingLabel
         
-        if messageView.MessageList[indexPath.row].isme {
+        if messageArr[indexPath.row].isme {
             cell = tableView.dequeueReusableCell(withIdentifier: "Right", for: indexPath)
             l_Message = cell.contentView.subviews[0] as! PaddingLabel
         } else {
@@ -367,23 +395,37 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         
         l_Message.translatesAutoresizingMaskIntoConstraints = true
         
-        l_Message.text = messageView.MessageList[indexPath.row].message
+        l_Message.text = messageArr[indexPath.row].message
         
-        let rect = l_Message.text!.boundingRect(with: CGSize(width: contentMaxWidth - 40, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
-        
-        l_Message.frame.size.height = rect.height + 40
-        
-        l_Message.frame.size.width = rect.width + 42
-        
-        if messageView.MessageList[indexPath.row].isme {
-            l_Message.frame.origin.x = tableView.frame.width - rect.width - 52
-        } else {
-            l_Message.frame.origin.x = cell.contentView.subviews[0].frame.width + 20
+        if rawValueDictionary["\(messageArr[indexPath.row].message)lh"] == nil {
+            let rect = l_Message.text!.boundingRect(with: CGSize(width: contentMaxWidth - 40, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: l_Message.font], context: nil)
+            
+            rawValueDictionary["\(messageArr[indexPath.row].message)lh"] = rect.height + 40
+            rawValueDictionary["\(messageArr[indexPath.row].message)lw"] = rect.width + 42
+            
+            if messageArr[indexPath.row].isme {
+                rawValueDictionary["\(messageArr[indexPath.row].message)lx"] = tableView.frame.width - rect.width - 52
+            } else {
+                rawValueDictionary["\(messageArr[indexPath.row].message)lx"] = cell.contentView.subviews[0].frame.width + 20
+            }
         }
+        
+        l_Message.frame.size.height = rawValueDictionary["\(messageArr[indexPath.row].message)lh"]!
+        
+        l_Message.frame.size.width = rawValueDictionary["\(messageArr[indexPath.row].message)lw"]!
+        
+        l_Message.frame.origin.x = rawValueDictionary["\(messageArr[indexPath.row].message)lx"]!
         
         l_Message.layer.cornerRadius = 20
         l_Message.layer.masksToBounds = true
-
+        
+        if !isLoading && !isFinishLoad && Double(indexPath.row) > Double(messageArr.count) * 0.7 {
+            isLoading = true
+            readMessages()
+        }
+        
+        print(indexPath.row)
+        
         return cell
     }
     

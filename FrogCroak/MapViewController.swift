@@ -40,17 +40,16 @@ class MapViewController: UIViewController {
 
             if let response = response as? HTTPURLResponse {
                 if response.statusCode == 200 {
-                    if let markerView = try? JSONDecoder().decode(MarkerView.self, from: data!)
+                    if let markers = try? JSONDecoder().decode(Markers.self, from: data!)
                     {
                         DispatchQueue.main.async {
 
-                            for var marker in markerView.MarkerList {
-                                marker.Content = marker.Content.replacingOccurrences(of: "\\n", with: "\n")
+                            for marker in markers.MarkerList {
                                 // Creates a marker
                                 let gmsMarker = GMSMarker()
                                 gmsMarker.position = CLLocationCoordinate2D(latitude: marker.Latitude, longitude: marker.Longitude)
                                 gmsMarker.title = marker.Title
-                                gmsMarker.snippet = marker.Content
+                                gmsMarker.snippet = marker.Content.replacingOccurrences(of: "\\n", with: "\n")
                                 gmsMarker.icon = UIImage(named: "normal")
                                 gmsMarker.map = self.mapView
                             }

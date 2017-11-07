@@ -315,11 +315,41 @@
                         <outlet property="bt_Record" destination="iiC-Jh-OdV" id="fb8-X0-I5I"/>
                         <outlet property="iv_ResultFrogImage" destination="T48-Z4-Tnh" id="0Bx-sP-jap"/>
                         <outlet property="l_Result" destination="Znz-8R-ZWs" id="LM0-GE-KbW"/>
+                        <segue destination="LTZ-Kr-4nL" kind="popoverPresentation" identifier="showPopover" popoverAnchorView="iiC-Jh-OdV" id="Q9B-dK-evx">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKY-Kz-9Kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1097" y="2492"/>
+        </scene>
+        <!--Popover View Controller-->
+        <scene sceneID="PDN-5S-IRY">
+            <objects>
+                <viewController id="LTZ-Kr-4nL" userLabel="Popover View Controller" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wQD-S3-6xD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="再次點擊停止錄音" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gl-uy-4U1">
+                                <rect key="frame" x="106.00000000000001" y="394.33333333333331" width="163.33333333333337" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.23137254901960785" green="0.31764705882352939" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="1Gl-uy-4U1" firstAttribute="centerX" secondItem="wQD-S3-6xD" secondAttribute="centerX" id="D9O-Hb-1By"/>
+                            <constraint firstItem="1Gl-uy-4U1" firstAttribute="centerY" secondItem="wQD-S3-6xD" secondAttribute="centerY" id="a20-bt-1KR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yaV-QQ-mNl"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yrx-pP-qoa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2070" y="3044"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="cmh-kR-mWt">

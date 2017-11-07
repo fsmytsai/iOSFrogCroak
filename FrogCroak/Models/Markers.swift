@@ -1,5 +1,5 @@
 //
-//  MarkerView.swift
+//  Markers.swift
 //  FrogCroak
 //
 //  Created by 蔡旻袁 on 2017/10/2.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct MarkerView: Codable {
-    struct Markers: Codable {
+struct Markers: Codable {
+    struct Marker: Codable {
         var MarkerId: Int
         var Latitude: Double
         var Longitude: Double
@@ -17,5 +17,5 @@ struct MarkerView: Codable {
         var Content: String
     }
     
-    var MarkerList: [Markers]
+    var MarkerList: [Marker]
 }

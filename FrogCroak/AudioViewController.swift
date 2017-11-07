@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import AVFoundation
 
-class AudioViewController: UIViewController, AVAudioRecorderDelegate {
+class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var iv_ResultFrogImage: UIImageView!
     
@@ -29,6 +29,22 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showPopover" {
+            let vc = segue.destination
+            vc.preferredContentSize = CGSize(width: 175, height: 35)
+            let controller = vc.popoverPresentationController
+            if controller != nil {
+                controller?.backgroundColor = UIColor.init(red: 0.2314, green: 0.3176, blue: 0.0784, alpha: 1)
+                controller?.delegate = self
+            }
+        }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
     @IBAction func record(_ sender: UIButton) {
         if isRecording && audioRecorder != nil {
             audioRecorder?.stop()
@@ -42,6 +58,7 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate {
             }
             
         } else {
+            performSegue(withIdentifier: "showPopover", sender: nil)
             l_Result.text = "結果"
             iv_ResultFrogImage.image = nil
             let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
