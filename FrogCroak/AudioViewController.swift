@@ -16,7 +16,7 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverP
     
     @IBOutlet weak var l_Result: UILabel!
     @IBOutlet weak var bt_Record: UIButton!
-    var audioRecorder:AVAudioRecorder?
+    var audioRecorder: AVAudioRecorder?
     var isRecording = false
     
     override func viewDidLoad() {
@@ -41,23 +41,32 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverP
         }
     }
     
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        stopRecord()
+    }
+    
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
     
     @IBAction func record(_ sender: UIButton) {
-        if isRecording && audioRecorder != nil {
-            audioRecorder?.stop()
-            bt_Record.setImage(UIImage(named: "recordbtn") , for: .normal)
-            isRecording = false
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-                try audioSession.setActive(false)
-            } catch _ {
-            }
-            
+        if AVAudioSession.sharedInstance().recordPermission() == .undetermined {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    self.startRecord()
+                } else {
+                    SharedService.ShowErrorDialog("無法取得錄音權限，請至設定內修改隱私權限", self)
+                }
+            })
+        } else if AVAudioSession.sharedInstance().recordPermission() == .granted {
+            self.startRecord()
         } else {
+            SharedService.ShowErrorDialog("無法取得錄音權限，請至設定內修改隱私權限", self)
+        }
+    }
+    
+    func startRecord() {
+        if !isRecording {
             performSegue(withIdentifier: "showPopover", sender: nil)
             l_Result.text = "結果"
             iv_ResultFrogImage.image = nil
@@ -75,9 +84,9 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverP
             
             let recordSettings:[String:Any] = [
                 AVFormatIDKey : NSNumber(value: kAudioFormatLinearPCM),
-                AVNumberOfChannelsKey : 2, //录音的声道数，立体声为双声道
-                AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,//音频质量
-                AVSampleRateKey : 44100.0,//录音器每秒采集的录音样本数
+                AVNumberOfChannelsKey : 2,
+                AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+                AVSampleRateKey : 44100.0,
                 AVLinearPCMBitDepthKey : NSNumber(value: 16),
                 AVLinearPCMIsBigEndianKey : NSNumber(value: true),
                 AVLinearPCMIsFloatKey : NSNumber(value: true)]
@@ -93,6 +102,21 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverP
             audioRecorder?.record()
             bt_Record.setImage(UIImage(named: "recordingbtn") , for: .normal)
             isRecording = true
+        }
+    }
+    
+    func stopRecord() {
+        if isRecording && audioRecorder != nil {
+            audioRecorder?.stop()
+            bt_Record.setImage(UIImage(named: "recordbtn") , for: .normal)
+            isRecording = false
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+                try audioSession.setActive(false)
+            } catch _ {
+            }
+            
         }
     }
     
@@ -157,7 +181,7 @@ class AudioViewController: UIViewController, AVAudioRecorderDelegate, UIPopoverP
                         }
                         break
                     case .failure(let encodingError) :
-                        print(encodingError)
+                        SharedService.ShowErrorDialog("辨識失敗", self)
                         break
                     }
             })

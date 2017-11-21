@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Photos
 
 class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -176,10 +177,27 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     @IBAction func bt_SelectImage(_ sender: UIButton) {
-        let ImagePicker = UIImagePickerController()
-        ImagePicker.sourceType = .photoLibrary
-        ImagePicker.delegate = self
-        present(ImagePicker, animated: true, completion: nil)
+        if PHPhotoLibrary.authorizationStatus() == .notDetermined {
+            
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                
+                if status == .authorized {
+                    let ImagePicker = UIImagePickerController()
+                    ImagePicker.sourceType = .photoLibrary
+                    ImagePicker.delegate = self
+                    self.present(ImagePicker, animated: true, completion: nil)
+                } else if status == .denied || status == .restricted {
+                    SharedService.ShowErrorDialog("無權限開啟相簿，請至設定內修改隱私權限", self)
+                }
+            })
+        } else if PHPhotoLibrary.authorizationStatus() == .authorized {
+            let ImagePicker = UIImagePickerController()
+            ImagePicker.sourceType = .photoLibrary
+            ImagePicker.delegate = self
+            self.present(ImagePicker, animated: true, completion: nil)
+        } else {
+            SharedService.ShowErrorDialog("無權限開啟相簿，請至設定內修改隱私權限", self)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -428,8 +446,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             isLoading = true
             readMessages()
         }
-        
-        print(indexPath.row)
         
         return cell
     }
