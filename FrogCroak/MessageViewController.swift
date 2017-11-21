@@ -32,6 +32,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        table_Message.transform = CGAffineTransform(rotationAngle: -.pi)
         contentMaxWidth = view.frame.width * 0.7
         setPushFrameAndTapCloseKB()
         
@@ -309,7 +310,9 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         let keyboardAnimationDetail = note.userInfo as! [String: AnyObject]
+        print(keyboardAnimationDetail[UIKeyboardAnimationDurationUserInfoKey]!)
         let duration = TimeInterval(truncating: keyboardAnimationDetail[UIKeyboardAnimationDurationUserInfoKey]! as! NSNumber)
+        print(duration)
         let keyboardFrameValue = keyboardAnimationDetail[UIKeyboardFrameBeginUserInfoKey]! as! NSValue
         let keyboardFrame = keyboardFrameValue.cgRectValue
         if keyboardFrame.size.height != 0 {
@@ -342,9 +345,9 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        
         if messageArr[indexPath.row].type == 1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "MyImage", for: indexPath)
+            cell.transform = CGAffineTransform(rotationAngle: -.pi)
             
             let iv_MyImageView = cell.contentView.subviews[0] as! UIImageView
             iv_MyImageView.translatesAutoresizingMaskIntoConstraints = true
@@ -392,6 +395,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = tableView.dequeueReusableCell(withIdentifier: "Left", for: indexPath)
             l_Message = cell.contentView.subviews[2] as! PaddingLabel
         }
+        
+        cell.transform = CGAffineTransform(rotationAngle: -.pi)
         
         l_Message.translatesAutoresizingMaskIntoConstraints = true
         
