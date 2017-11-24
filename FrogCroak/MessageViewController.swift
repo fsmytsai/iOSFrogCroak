@@ -180,24 +180,24 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         if PHPhotoLibrary.authorizationStatus() == .notDetermined {
             
             PHPhotoLibrary.requestAuthorization({ (status) in
-                
                 if status == .authorized {
-                    let ImagePicker = UIImagePickerController()
-                    ImagePicker.sourceType = .photoLibrary
-                    ImagePicker.delegate = self
-                    self.present(ImagePicker, animated: true, completion: nil)
+                    self.openImagePickerController()
                 } else if status == .denied || status == .restricted {
                     SharedService.ShowErrorDialog("無權限開啟相簿，請至設定內修改隱私權限", self)
                 }
             })
         } else if PHPhotoLibrary.authorizationStatus() == .authorized {
-            let ImagePicker = UIImagePickerController()
-            ImagePicker.sourceType = .photoLibrary
-            ImagePicker.delegate = self
-            self.present(ImagePicker, animated: true, completion: nil)
+            openImagePickerController()
         } else {
             SharedService.ShowErrorDialog("無權限開啟相簿，請至設定內修改隱私權限", self)
         }
+    }
+    
+    func openImagePickerController() {
+        let ImagePicker = UIImagePickerController()
+        ImagePicker.sourceType = .photoLibrary
+        ImagePicker.delegate = self
+        present(ImagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
